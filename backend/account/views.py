@@ -139,7 +139,20 @@ class RegisterView(APIView):
             
 
 #  Just to check if the user is authenticated or not (Temporary View function)
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@api_view(['GET', 'POST'])
 def is_authenticated(request):
-    return Response({'authenticated':True})
+    try:
+        # Check if the user has a valid token (which means they are authenticated)
+        if request.user.is_authenticated:
+            return Response({
+                'authenticated': True,
+                'user': {
+                    'username': request.user.username,
+                    'email': request.user.email,
+                    'id': request.user.id
+                }
+            })
+        else:
+            return Response({'authenticated': False})
+    except Exception as e:
+        return Response({'authenticated': False, 'error': str(e)})

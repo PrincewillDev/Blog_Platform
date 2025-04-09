@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
 import "./topbar.css";
+import { useAuth } from "../../context/useAuth.jsx";
 
 export default function Topbar() {
-  const user = true;
+  const { user, logoutUser } = useAuth();
+  
+  const handleLogout = async () => {
+    await logoutUser();
+  };
+  
   return (
     <div className="top">
       <div className="topLeft">
@@ -25,7 +31,7 @@ export default function Topbar() {
               WRITE
             </Link>
           </li>
-          {user && <li className="topListItem">LOGOUT</li>}
+          {user && <li className="topListItem" onClick={handleLogout}>LOGOUT</li>}
         </ul>
       </div>
       <div className="topRight">

@@ -9,7 +9,7 @@ class ResgisterSerializer(serializers.Serializer):
     username = serializers.CharField()
     email = serializers.EmailField()
     password = serializers.CharField()
-    confirm_password = serializers.CharField()
+    # confirm_password = serializers.CharField()
     
     def validate(self, data):
         if User.objects.filter(username = data['username']).exists():
@@ -18,8 +18,8 @@ class ResgisterSerializer(serializers.Serializer):
         if User.objects.filter(email = data['email']).exists():
             raise serializers.ValidationError("email already exist")
         
-        if data['password'] != data['confirm_password']:
-            raise serializers.ValidationError("Password must match")
+        # if data['password'] != data['confirm_password']:
+        #     raise serializers.ValidationError("Password must match")
         
         return data
     
